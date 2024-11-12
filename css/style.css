@@ -1,7 +1,7 @@
 /********** Template CSS **********/
 :root {
-    /* --primary: #FEA116; */
-    --primary: seagreen;
+    --primary: #FEA116;
+    /* --primary: seagreen; */
     --light: #F1F8FF;
     --dark: #0F172B;
 }
