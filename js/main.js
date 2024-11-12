@@ -81,7 +81,7 @@
         $('.btn-play').click(function () {
             $videoSrc = $(this).data("src");
         });
-        console.log($videoSrc);
+        
 
         $('#videoModal').on('shown.bs.modal', function (e) {
             $("#video").attr('src', $videoSrc + "?autoplay=1&amp;modestbranding=1&amp;showinfo=0");
@@ -91,6 +91,31 @@
             $("#video").attr('src', $videoSrc);
         })
     });
+
+
+    
+    // Services carousel
+$(".service-carousel").owlCarousel({
+    autoplay: true,
+    smartSpeed: 1000,
+    center: true,
+    margin: 24,
+    dots: true,
+    loop: true,
+    nav : false,
+    responsive: {
+        0:{
+            items:1  // 1 item per slide on mobile
+        },
+        768:{
+            items:2  // 2 items per slide on tablet
+        },
+        992:{
+            items:3  // 3 items per slide on desktop
+        }
+    }
+});
+
 
 
     // Testimonials carousel
