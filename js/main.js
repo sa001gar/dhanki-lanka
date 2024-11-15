@@ -165,3 +165,99 @@ $(".service-carousel").owlCarousel({
     
 })(jQuery);
 
+
+// Set default values for date and time
+// Set the current date as the default for the date field
+const dateInput = document.getElementById('date');
+const timeInput = document.getElementById('time');
+
+const now = new Date();
+
+// Format the current date as yyyy-MM-dd for the date input
+const formattedDate = now.toISOString().split('T')[0];
+dateInput.value = formattedDate;
+
+// Format the current time as HH:mm for the time input
+const formattedTime = now.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+});
+timeInput.value = formattedTime;
+
+// Event listeners for validation
+dateInput.addEventListener('input', validateDate);
+timeInput.addEventListener('input', validateTime);
+
+// Add event listeners for live validation
+document.getElementById('name').addEventListener('input', validateName);
+document.getElementById('email').addEventListener('input', validateEmailOrPhone);
+document.getElementById('date').addEventListener('input', validateDate);
+document.getElementById('time').addEventListener('input', validateTime);
+document.getElementById('select1').addEventListener('input', validateSeats);
+
+function validateName() {
+    const name = document.getElementById('name').value.trim();
+    const nameError = document.getElementById('nameError');
+    if (name === "") {
+        nameError.classList.remove('d-none');
+    } else {
+        nameError.classList.add('d-none');
+    }
+}
+
+function validateEmailOrPhone() {
+    const emailOrPhone = document.getElementById('email').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[6-9]\d{9}$/;
+    const emailError = document.getElementById('emailError');
+    if (!emailRegex.test(emailOrPhone) && !phoneRegex.test(emailOrPhone)) {
+        emailError.classList.remove('d-none');
+    } else {
+        emailError.classList.add('d-none');
+    }
+}
+
+function validateDate() {
+    const selectedDate = dateInput.value;
+    const currentDate = new Date().toISOString().split('T')[0];
+    const dateError = document.getElementById('dateError');
+    if (selectedDate < currentDate) {
+        dateError.classList.remove('d-none');
+    } else {
+        dateError.classList.add('d-none');
+    }
+}
+
+function validateTime() {
+    const selectedDate = dateInput.value;
+    const selectedTime = timeInput.value;
+    const currentDateTime = new Date();
+    const selectedDateTime = new Date(`${selectedDate}T${selectedTime}`);
+    const timeError = document.getElementById('timeError');
+    if (selectedDateTime < currentDateTime) {
+        timeError.classList.remove('d-none');
+    } else {
+        timeError.classList.add('d-none');
+    }
+}
+function validateSeats() {
+    const seats = document.getElementById('select1').value;
+    const seatsError = document.getElementById('seatsError');
+    if (seats === "" || seats <= 0) {
+        seatsError.classList.remove('d-none');
+    } else {
+        seatsError.classList.add('d-none');
+    }
+}
+
+// Final form validation
+function validateForm(event) {
+    validateName();
+    validateEmailOrPhone();
+    validateDate();
+    validateTime();
+    validateSeats();
+
+    const errors = document.querySelectorAll('.text-danger:not(.d-none)');
+    return errors.length === 0; // Prevent form submission if there are errors
+}
